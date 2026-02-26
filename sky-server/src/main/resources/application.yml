@@ -33,7 +33,12 @@ sky:
   jwt:
     # 设置jwt签名加密时使用的秘钥
     admin-secret-key: itcast
-    # 设置jwt过期时间
-    admin-ttl: 7200000
+    #TODO jwt的过期时间,默认30天,为了方便测试，这里设置30天，后期需要修改为1天
+    # 设置jwt过期时间,单位毫秒,默认为7200000000，即30天
+    admin-ttl: 7200000000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+  alioss:
+    endpoint: ${sky.alioss.endpoint}
+    bucket-name:  ${sky.alioss.bucket-name}
+    region: ${sky.alioss.region}

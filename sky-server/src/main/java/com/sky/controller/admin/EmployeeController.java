@@ -100,4 +100,24 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    @PostMapping("/status/{status}")
+    public Result startOrStop(@PathVariable Integer status, @RequestParam Long id) {
+        log.info("前端传来的：员工状态：{}，员工id：{}", status, id);
+        employeeService.startOrStop(status, id);
+        return Result.success();
+    }
+    @GetMapping("/{id}")
+    public Result<Employee> getById(@PathVariable Long id) {
+        // 记录查询员工信息的日志，包含员工id
+        //这里前端传来的是String类型，api文档里写的是String类型，这里需要转换成Long类型（包装类，非基本类型）
+        log.info("根据id查询员工，员工id：{}", id);
+       Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+    @PutMapping
+    public Result<String> update(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("修改员工，员工数据：{}", employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+         }
 }

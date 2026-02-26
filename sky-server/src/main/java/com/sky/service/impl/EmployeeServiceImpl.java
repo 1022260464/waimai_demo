@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-import javax.validation.constraints.Digits;
 import java.time.LocalDateTime;
 
 @Service
@@ -50,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         //密码比对
-        // TODO 后期需要进行md5加密，然后再进行比对
+
         //对前端传入的密码进行md5加密
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         if (!password.equals(employee.getPassword())) {
@@ -83,13 +82,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         //设置密码,默认123456,采用md5加密,(采用自定义常量类)
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
         //设置创建时间和更新时间
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
 
 
-        //设置创建人id和更新人id
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        //设置创建人id和更新人id
+//        employee.setCreateUser(BaseContext.getCurrentId());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
         //插入数据,调用mapper层
         employeeMapper.insert(employee);
     }
@@ -106,5 +105,42 @@ public class EmployeeServiceImpl implements EmployeeService {
         PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
         Page<Employee> page = employeeMapper.page(employeePageQueryDTO);
         return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    /**
+     * 启用或禁用员工账号
+     * @param status
+     * @param id
+     */
+    @Override
+    public void startOrStop(Integer status, Long id) {
+       Employee employee = Employee.builder().status(status).id (id).build();
+         employeeMapper.update(employee);
+    }
+
+    @Override
+    public Employee getById(Long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("****");
+        return employee;
+
+    }
+
+/**
+ * 更新员工信息的方法
+ * @param employeeDTO 包含员工更新信息的DTO对象
+ */
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+    // 创建Employee实体对象
+        Employee employee = new Employee();
+    // 将employeeDTO中的属性复制到employee对象中
+        BeanUtils.copyProperties(employeeDTO,employee);
+    // 设置更新时间为当前时间
+        employee.setUpdateTime(LocalDateTime.now());
+    // 设置更新人为当前登录用户ID
+        employee.setUpdateUser(BaseContext.getCurrentId());
+    // 调用employeeMapper的update方法执行更新操作
+        employeeMapper.update(employee);
     }
 }

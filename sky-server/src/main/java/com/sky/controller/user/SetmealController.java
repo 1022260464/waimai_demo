@@ -12,7 +12,9 @@ import com.sky.vo.SetmealVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -37,9 +39,12 @@ public class SetmealController {
      *
      * @param categoryId
      * @return
+     * 注意：导入cacheable包时容易导错包，import org.springframework.cache.annotation.Cacheable;
+     * 导入错误会导致爆红
      */
     @GetMapping("/list")
     @ApiOperation("根据分类id查询套餐")
+    @Cacheable(value = "setmeal",key="#categoryId")
     public Result<List<Setmeal>> list(Long categoryId) {
         Setmeal setmeal = new Setmeal();
         setmeal.setCategoryId(categoryId);

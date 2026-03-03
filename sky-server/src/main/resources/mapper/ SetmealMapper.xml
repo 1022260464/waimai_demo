@@ -18,7 +18,16 @@
         </foreach>
     </insert>
     <update id="update">
-        update setmeal set category_id = #{categoryId}, name = #{name}, price = #{price}, status = #{status},
+        update setmeal
+        <set>
+        <if test="categoryId != null">category_id = #{categoryId},</if>
+        <if test="name != null">name = #{name},</if>
+        <if test="price != null">price = #{price},</if>
+        <if test="status != null">status = #{status},</if>
+        <if test="description != null">description = #{description},</if>
+        <if test="image != null">image = #{image},</if>
+        </set>
+        where id = #{id}
     </update>
 
     <select id="pageQuery" resultType="com.sky.vo.SetmealVO">

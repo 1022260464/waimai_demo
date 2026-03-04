@@ -21,3 +21,17 @@ sky:
   wechat:
     secret: 7a43d710d514ea6cd52a023253400438
     app-id: wx987a2d57e3c632d2
+#    商户号
+    mchid: 1561414331
+#    商户秘钥
+    mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
+#    商户私钥文件
+    privateKeyFilePath: D:\apiclient_key.pem
+#    证书解密的密钥
+    apiV3Key: CZBK51236435wxpay435434323FFDuv3
+#    平台证书
+    weChatPayCertFilePath: D:\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
+#    支付成功的回调地址
+    notifyUrl: https://www.weixin.qq.com/wxpay/pay.php
+#    退款成功的回调地址
+    refundNotifyUrl: https://www.weixin.qq.com/wxpay/pay.php
